@@ -24,6 +24,6 @@ const Meat = db.define('meat',{
         type: DataTypes.STRING,
         defaultValue: 'active',
     },
-})
+});
 
 module.exports = { Meat };
