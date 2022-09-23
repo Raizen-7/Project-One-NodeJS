@@ -1,14 +1,14 @@
 //Models
 const { User } = require('./user.model');
-const { Meat } = require('./meat.model');
+const { Meal } = require('./meal.model');
 const { Order } = require('./order.model');
 const { Review } = require('./review.model');
 const { Restaurant } = require('./restaurant.model');
 
 const initModels = () =>{
     //1 restaurant <-------> M Meats
-    Restaurant.hasMany(Meat, {foreignKey: 'restaurantId'});
-    Meat.belongsTo(Restaurant);
+    Restaurant.hasMany(Meal, {foreignKey: 'restaurantId'});
+    Meal.belongsTo(Restaurant);
 
     //1 Restaurant <------> M Review
     Restaurant.hasMany(Review, {foreignKey: 'restaurantId'});
@@ -19,8 +19,8 @@ const initModels = () =>{
     Review.belongsTo(User);
 
     //1 Meat <------> 1 Order
-    Meat.belongsTo(Order, {foreignKey: 'meatId'});
-    Order.belongsTo(Meat);
+    Meal.belongsTo(Order, {foreignKey: 'meatId'});
+    Order.belongsTo(Meal);
 
     // 1 User <-------> M Orders
     User.hasMany(Order, {foreignKey: 'userId'});

@@ -1,6 +1,6 @@
 const { db, DataTypes } = require('../utils/database.util');
 
-const Meat = db.define('meat',{
+const Meal = db.define('meat',{
     id: {
         primaryKey: true,
         autoIncrement: true,
@@ -26,4 +26,4 @@ const Meat = db.define('meat',{
     },
 });
 
-module.exports = { Meat };
+module.exports = { Meal };
