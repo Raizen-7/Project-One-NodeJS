@@ -2,10 +2,10 @@ const express = require('express');
 
 //controllers
 const { 
-    getAllOrders,
-    createOrder,
-    updateOrderr,
-    deleteOrder,
+    getAllUsers,
+    createUser,
+    updateUser,
+    deleteUser,
     login,
 } = require('../controller/user.controller')
 ;
@@ -13,15 +13,15 @@ const {
 
 const userRouter = express.Router();
 
-userRouter.post('/signup', updateOrderr);
+userRouter.post('/signup', createUser );
 
 userRouter.post('/login', login);
 
-userRouter.patch('/:id', createOrder);
+userRouter.patch('/:id', updateUser);
 
-userRouter.delete('/:id', deleteOrder);
+userRouter.delete('/:id', deleteUser);
 
-userRouter.get('/orders', getAllOrders);
+userRouter.get('/orders', getAllUsers);
 
 userRouter.get('/orders/:id');
 

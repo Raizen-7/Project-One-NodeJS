@@ -11,18 +11,18 @@ const { catchAsync } = require('../utils/catchAsync.util');
 
 dotenv.config({ path: './config.env' });
 
-const getAllOrders = catchAsync(async (req, res, next) => {});
+const getAllUsers = catchAsync(async (req, res, next) => {});
 
-const createOrder = catchAsync(async (req, res, next) => {});
+const createUser = catchAsync(async (req, res, next) => {});
 
-const updateOrder = catchAsync(async (req, res, next) => {});
+const updateUser = catchAsync(async (req, res, next) => {});
 
-const deleteOrder = catchAsync(async (req, res, next) => {});
+const deleteUser = catchAsync(async (req, res, next) => {});
 
 const login = catchAsync(async(req, res, next) => { });
 
 module.exports={
-    getAllOrders,
+    getAllUsers,
     createUser,
     updateUser,
     deleteUser,
