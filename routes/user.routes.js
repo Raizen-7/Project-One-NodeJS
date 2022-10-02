@@ -2,11 +2,12 @@ const express = require('express');
 
 //controllers
 const { 
-    getAllUsers,
     createUser,
     updateUser,
     deleteUser,
     login,
+    getAllOrders,
+    getOrderById,
 } = require('../controller/user.controller')
 ;
 //Middleware
@@ -17,12 +18,13 @@ userRouter.post('/signup', createUser );
 
 userRouter.post('/login', login);
 
+userRouter.get('/orders', getAllOrders);
+
+userRouter.get('/orders/:id', getOrderById);
+
+
 userRouter.patch('/:id', updateUser);
 
 userRouter.delete('/:id', deleteUser);
-
-userRouter.get('/orders', getAllUsers);
-
-userRouter.get('/orders/:id');
 
 module.exports = { userRouter };
