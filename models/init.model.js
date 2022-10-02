@@ -19,7 +19,7 @@ const initModels = () =>{
     Review.belongsTo(User);
 
     //1 Meat <------> 1 Order
-    Meal.belongsTo(Order, {foreignKey: 'meatId'});
+    Meal.hasOne(Order, {foreignKey: 'meatId'});
     Order.belongsTo(Meal);
 
     // 1 User <-------> M Orders
