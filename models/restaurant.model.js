@@ -11,10 +11,12 @@ const Restaurant = db.define('restaurante', {
         type: DataTypes.STRING,
     },
     address: {
-
+        allowNull: false,
+        type: DataTypes.STRING,
     },
     rating:{
-
+        allowNull: false,
+        type: DataTypes.STRING,
     },
     status:{
         allowNull: false,

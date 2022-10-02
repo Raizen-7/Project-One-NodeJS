@@ -11,13 +11,13 @@ const Order = db.define('order', {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
-	restaurantId: {
+	userId: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
     totalPrice: {
         allowNull: false,
-        type: DataTypes.DECIMAL
+        type: DataTypes.DECIMAL,
     },
     quantity:{
         type: DataTypes.INTEGER,
