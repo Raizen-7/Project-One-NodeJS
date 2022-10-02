@@ -23,11 +23,13 @@ const getAllOrders = catchAsync(async (req, res, next) => {
 		where: { userId: sessionUser.id , status: 'active' },
 		include: [
 			{
-				model: Meal ,
+				model: Meal
 			},
 			{
-				model: Restaurant,
-				include: { model: Review }
+				model: Restaurant
+			},
+			{
+				model: Review
 			},
 		],
 	});
@@ -48,9 +50,11 @@ const getOrderById = catchAsync(async (req, res, next) => {
 			model: Meal
 		},
 		{ 
-			model: Restaurant,
-			include: { model: Review } 
-		}
+			model: Restaurant
+		},
+		{
+			model: Review
+		},
 	],
 	});
   
