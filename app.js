@@ -4,6 +4,7 @@ const express = require('express');
 const { userRouter } = require('./routes/user.routes');
 const { restRouter } = require('./routes/restaurant.routes');
 const { orderRouter } = require('./routes/order.routes');
+const { mealsRouter } = require('./routes/meal.routes');
 
 //init express
 const app = express();
@@ -18,7 +19,7 @@ const { globalErrorHandler } =require('./controller/error.controller');
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/restaurants', restRouter );
 app.use('/api/v1/orders', orderRouter );
-app.use('/api/v1/meals',  );
+app.use('/api/v1/meals', mealsRouter );
 
 //Global error Handdler
 app.use(globalErrorHandler);
