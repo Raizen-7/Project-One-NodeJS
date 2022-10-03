@@ -59,12 +59,20 @@ const updateRestaurant = catchAsync(async (req, res, next) => {
     });
   });
 
+const deletedRestaurant = catchAsync(async (req, res, next) => {
+    const { restaurant } = req;
+  
+    await restaurant.update({ status: 'deleted' });
+  
+    res.status(200).json({ status: 'success' });
+  });
+
 const createReviewRestaurant = catchAsync(async (req, res, next) => {
     const { restaurant, sessionUser } = req;
   
     const { comment, rating } = req.body;
   
-    const newReview = await Reviews.create({
+    const newReview = await Review.create({
       userId: sessionUser.id,
       comment,
       rating,
@@ -73,9 +81,32 @@ const createReviewRestaurant = catchAsync(async (req, res, next) => {
   
     res.status(201).json({ status: 'success', newReview });
 });
+
+const updateReviewRestaurant = catchAsync(async (req, res, next) => {
+    const { review } = req;
+  
+    const { comment, rating } = req.body;
+  
+    await review.update({ comment, rating });
+  
+    res.status(200).json({ status: 'success' });
+  });
+
+  const deletedReviewsRestaurant = catchAsync(async (req, res, next) => {
+    const { review } = req;
+  
+    await review.update({ status: 'deleted' });
+  
+    res.status(200).json({ status: 'success' });
+  });
+
 module.exports={ 
     createRestaurant,
     getAllRestaurants,
     getRestaurantById,
     updateRestaurant,
+    deletedRestaurant,
+    createReviewRestaurant,
+    updateReviewRestaurant,
+    deletedReviewsRestaurant
 }

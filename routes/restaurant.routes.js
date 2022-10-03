@@ -1,35 +1,65 @@
 const express = require('express');
 
 //Controllers
-
+const {
+createRestaurant,
+getAllRestaurants,
+getRestaurantById,
+updateRestaurant,
+deletedRestaurant,
+createReviewRestaurant,
+deletedReviewsRestaurant,
+updateReviewRestaurant
+} = require('../controller/restorant.controller')
 
 
 //Middleware
+const { restaurantExists } = require('../middlewares/restaurant.middleware');
+const {
+    reviewExists,
+    protectOwnerReview
+} = require('../middlewares/review.middleware');
 
+const {
+    createRestaurantValidations,
+    createReviewValidations,
+    checkValidations
+} = require('../middlewares/validators.middleware');
 
+const { protectAdmin } = require('../middlewares/auth.middleware');
+
+const { protectToken } = require('../middlewares/users.middleware');
 
 //Endpoints
 
 const restRouter = express.Router();
 
 //Obtener todos los restaurants con status active
-restRouter.get('/');
+restRouter.get('/', getAllRestaurants );
 //Obtener restaurant por id
-restRouter.get('/:id');
+restRouter.get('/:id',restaurantExists,  getRestaurantById );
 
 //habilitar protección con middleware
 
+restRouter.use(protectToken);
 
-//crear restaurante
-restRouter.post('/');
+//Restaurant
+restRouter.post(
+    '/',
+    protectAdmin,
+    createRestaurantValidations,
+    checkValidations,
+    createRestaurant,
+);
 
-//Actualizar restaurant (name, address), ÚNICAMENTE EL ADMIN PUEDE REALIZAR
-restRouter.patch('/:id');
-//soft delete ÚNICAMENTE EL ADMIN PUEDE REALIZAR
-restRouter.delete('/:id');
-//crear reseñas de restaurantes
-restRouter.post('/reviews/:restaurantId');
-//Actualizar una reseña hecha en un restaurant, siendo :id el id de la reseña (comment, rating) SOLO EL AUTOR DE LA RESEÑA PUEDE ACTUALIZAR SU PROPIA RESEÑA
-restRouter.patch('/reviews/:id');
+restRouter.patch('/:id', protectAdmin, restaurantExists, updateRestaurant );
+//soft delete 
+restRouter.delete('/:id', protectAdmin, restaurantExists, deletedRestaurant );
+//Review
+restRouter.post('/reviews/:restaurantId', createReviewValidations, createReviewRestaurant );
 
-restRouter.delete('/reviews/:id');
+restRouter.patch('/reviews/:id', reviewExists, protectOwnerReview, updateReviewRestaurant );
+//soft delete 
+restRouter.delete('/reviews/:id', reviewExists, protectOwnerReview, deletedReviewsRestaurant );
+
+module.exports = { Router };
