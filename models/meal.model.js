@@ -13,7 +13,7 @@ const Meal = db.define('meat',{
     },
     price: {
         allowNull: false,
-        type: DataTypes.DECIMAL
+        type: DataTypes.FLOAT,
     },
     restaurantId: {
         type: DataTypes.INTEGER,

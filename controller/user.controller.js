@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 //Models
 const { User } = require('../models/user.model');
 const { Order } = require('../models/order.model');
+const { Meal } = require('../models/meal.model');
+const { Restaurant } = require('../models/restaurant.model');
 const { Review } = require('../models/review.model');
 
 //Utils
@@ -13,29 +15,55 @@ const { catchAsync } = require('../utils/catchAsync.util');
 
 dotenv.config({ path: './config.env' });
 
-const getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await User.findAll({
-		attributes: { exclude: ['password'] },
-		where: { status: 'active' },
+const getAllOrders = catchAsync(async (req, res, next) => {
+
+	const { sessionUser } = req;
+
+    const orders = await Order.findAll({
+		where: { userId: sessionUser.id , status: 'active' },
 		include: [
 			{
-				model: Order,
-				include: {
-					model: Review,
-					include: { model: User },
-				},
+				model: Meal
 			},
 			{
-				model: Review,
+				model: Restaurant
+			},
+			{
+				model: Review
 			},
 		],
 	});
 
 	res.status(200).json({
 		status: 'success',
-		data: { users },
+		data: { orders },
 	});
 });
+
+const getOrderById = catchAsync(async (req, res, next) => {
+	const { sessionUser } = req;
+  
+	const userOrder = await Order.findOne({
+	  where: { userId: sessionUser.id, status: 'active' },
+	  include: [
+		{ 
+			model: Meal
+		},
+		{ 
+			model: Restaurant
+		},
+		{
+			model: Review
+		},
+	],
+	});
+  
+	if (!userOrder) {
+	  return next(new AppError(`this order id it doesn't exist`, 404));
+	}
+  
+	res.status(200).json({ status: 'success', userOrder });
+  });
 
 const createUser = catchAsync(async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -61,11 +89,11 @@ const createUser = catchAsync(async (req, res, next) => {
 });
 
 const updateUser = catchAsync(async (req, res, next) => {
-    const { name } = req.body;
+    const { name, email } = req.body;
 	const { user } = req;
 
 	// Update using a model's instance
-	await user.update({ name });
+	await user.update({ name, email });
 
 	res.status(200).json({
 		status: 'success',
@@ -110,7 +138,8 @@ const login = catchAsync(async(req, res, next) => {
  });
 
 module.exports={
-    getAllUsers,
+    getAllOrders,
+	getOrderById,
     createUser,
     updateUser,
     deleteUser,

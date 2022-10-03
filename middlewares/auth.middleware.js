@@ -47,6 +47,22 @@ const protectSession = catchAsync(async (req, res, next) => {
 	next();
 });
 
+const userExists = catchAsync(async (req, res, next) => {
+	const { id } = req.params;
+  
+	const user = await User.findOne({
+	  where: { id, status: 'active' },
+	  attributes: { exclude: ['password'] },
+	});
+  
+	if (!user) {
+	  return next(new AppError('User does not exist with given Id', 404));
+	}
+  
+	req.user = user;
+	next();
+  });
+
 // Check the sessionUser to compare to the one that wants to be updated/deleted
 const protectUsersAccount = (req, res, next) => {
 	const { sessionUser, user } = req;
@@ -76,4 +92,5 @@ module.exports = {
 	protectSession,
 	protectUsersAccount,
 	protectAdmin,
+	userExists,
 };

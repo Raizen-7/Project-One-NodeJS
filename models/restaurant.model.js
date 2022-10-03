@@ -2,6 +2,7 @@ const { db, DataTypes } = require('../utils/database.util');
 
 const Restaurant = db.define('restaurante', {
     id:{
+        primaryKey: true,
         allowNull: false,
         autoIncrement: true,
         type: DataTypes.INTEGER,
