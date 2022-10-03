@@ -53,4 +53,14 @@ const userExists = catchAsync(async (req, res, next) => {
 	next();
 });
 
-module.exports = { userExists, protectToken };
+const protectAccountOwner = catchAsync(async (req, res, next) => {
+	const { sessionUser, user } = req;
+  
+	if (sessionUser.id !== user.id) {
+	  return next(new AppError('You do not own this account', 403));
+	}
+  
+	next();
+  });
+
+module.exports = { userExists, protectToken, protectAccountOwner };

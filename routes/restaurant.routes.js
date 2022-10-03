@@ -62,4 +62,4 @@ restRouter.patch('/reviews/:id', reviewExists, protectOwnerReview, updateReviewR
 //soft delete 
 restRouter.delete('/reviews/:id', reviewExists, protectOwnerReview, deletedReviewsRestaurant );
 
-module.exports = { Router };
+module.exports = { restRouter };
